@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Scrape products</title>
+  <style>
+    /* Add some basic styling to the search bar */
+    .search-container {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .search-input {
+      padding: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 4px;
+      margin-right: 10px;
+      width: 50%;
+    }
+    p {
+        text-align: center;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    .search-button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .search-button:hover {
+      background-color: #45a049;
+    }
+    /* Add some basic styling to the list of products */
+    .product-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 0 auto;
+      max-width: 800px;
+    }
+    .product-card {
+      width: 300px;
+      margin: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+    }
+    .product-card img {
+      width: 100%;
+      height: auto;
+      border-radius: 4px 4px 0 0;
+    }
+    .product-card h2 {
+      margin: 10px;
+      font-size: 18px;
+      font-weight: 400;
+    }
+    .product-card p {
+      margin: 10px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div id="pageTitle">
+    <center><h1>Snakers &#128013;</h1></center>
+  </div>
+  <div class="search-container">
+    <form method="POST" action="">
+        {% csrf_token %}
+      <input type="text" placeholder="Search for products..." class="search-input" name="search_query" value="{{ request.GET.q }}">
+      <button type="submit" class="search-button">Search</button>
+    </form>
+  </div>
+  {% if items_list %}
+    <div class="product-list">
+        {% for item in items_list %}
+        <a href="{{item.product_detail_url}}">
+        <div class="product-card">
+          <img src="{{item.product_image}}" alt="{{ item.title }}">
+          <h2>{{item.product_title}}</h2>
+          <p>${{item.price}}</p>
+        </div>
+    </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>No products found.</p>
+  {% endif %}
+  <!-- {% if items_list1 %}
+    <div class="product-list">
+        {% for item in items_list %}
+        <a href="{{item.product_detail_url}}">
+        <div class="product-card">
+          <img src="{{item.product_image}}" alt="{{ item.title }}">
+          <h2>{{item.product_title}}</h2>
+          <p>${{item.price}}</p>
+        </div>
+    </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>No products found.</p>
+  {% endif %} -->
+</body>
+</html>
